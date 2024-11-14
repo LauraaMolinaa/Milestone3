@@ -6,6 +6,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HPlusSport.Security.Web.Controllers;
 
+/*Course: 		Web Programming 3
+* Assessment: 	Milestone 3
+* Created by: 	Laura Molina 2232607
+* Date: 		14/11/2024
+* Class Name: 	ShopController.cs
+* Description: 	This controller handles all the routes that have to do with the shopping for example getting the products, listing the categories, adding orders to cart, etc 
+* Time Task B):	1 hour
+*/
+
 [Authorize]
 [IgnoreAntiforgeryToken(Order = 1001)]
 public class ShopController : Controller

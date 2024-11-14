@@ -7,6 +7,15 @@ using System.Security.Claims;
 
 namespace HPlusSport.Security.Web.Controllers;
 
+/*Course: 		Web Programming 3
+* Assessment: 	Milestone 3
+* Created by: 	Laura Molina 2232607
+* Date: 		14/11/2024
+* Class Name: 	AccountController.cs
+* Description: 	This controller handles all the routes that have to do with the user account such as logging in and logging out 
+* Time Task B):	1 hour
+*/
+
 public class AccountController : Controller
 {
     private readonly ShopContext _context;
