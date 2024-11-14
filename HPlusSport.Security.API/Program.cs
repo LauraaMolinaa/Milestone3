@@ -11,7 +11,7 @@ builder.Services.AddCors(options =>
         "Temperature API Policy",
         builder =>
         {
-            builder.WithOrigins("https://localhost:6002/");
+            builder.WithOrigins("https://localhost:6002");
         });
 });
 var app = builder.Build();
@@ -25,7 +25,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseCors("Temperature API Policy"); 
+app.UseCors(); 
 
 app.MapGet("/temperature", () =>
 {

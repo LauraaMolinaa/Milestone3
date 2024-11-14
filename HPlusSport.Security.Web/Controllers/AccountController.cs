@@ -27,11 +27,11 @@ public class AccountController : Controller
     [HttpPost]
     public async Task<ActionResult> Login(string email, string password)
     {
-        var user = _context.Users.FirstOrDefault(u => u.Email == email && u.Password == password);
-        if (user == null || !PasswordHelper.VerifyPassword(
+        var user = _context.Users.FirstOrDefault(u => u.Email == email);
+        if (user == null || PasswordHelper.VerifyPassword(
                 password, 
-                new HashInformation(user.Hash, user.Salt)
-            ))
+                new HashInformation(user.Hash, user.Salt)) == false
+        )
         {
             ViewData["Message"] = "User name or password invalid";
             return View();
