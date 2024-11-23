@@ -1,4 +1,5 @@
 using HPlusSport.Security.identity.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -48,7 +49,6 @@ namespace HPlusSport.Security.identity
 
             app.Use(async (context, next) =>
             {
-                //context.Response.Headers.Append("X-Content-Type-Options", "nosniff");
                 context.Response.Headers.Append("X-Content-Type-Options", "nosniff");
                 await next.Invoke();
             });
