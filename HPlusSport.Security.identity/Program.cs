@@ -1,6 +1,8 @@
 using HPlusSport.Security.identity.Data;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace HPlusSport.Security.identity
 {
@@ -9,6 +11,11 @@ namespace HPlusSport.Security.identity
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            //builder.WebHost.UseKestrel(options =>
+            //{
+            //    options.AddServerHeader = false;
+            //});
 
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(); 
@@ -39,12 +46,21 @@ namespace HPlusSport.Security.identity
                 app.UseHsts();
             }
 
+            app.Use(async (context, next) =>
+            {
+                //context.Response.Headers.Append("X-Content-Type-Options", "nosniff");
+                context.Response.Headers.Append("X-Content-Type-Options", "nosniff");
+                await next.Invoke();
+            });
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseAuthentication();
 
             app.MapRazorPages();
 
@@ -54,7 +70,8 @@ namespace HPlusSport.Security.identity
             {
                 return $"hello {context.User?.Identity?.Name}";
             })
-                .WithOpenApi(); 
+                .WithOpenApi()
+                .RequireAuthorization();
 
             app.Run();
         }
