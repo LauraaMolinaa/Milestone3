@@ -1,4 +1,5 @@
 using HPlusSport.Security.identity.Data;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -29,6 +30,30 @@ namespace HPlusSport.Security.identity
 
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            builder.Services.ConfigureApplicationCookie(options =>
+            {
+                options.Events = new CookieAuthenticationEvents
+                {
+                    OnRedirectToLogin = context =>
+                    {
+                        if (context.Request.Path.StartsWithSegments("/api") && context.Response.StatusCode == 200)
+                        {
+                            context.Response.StatusCode = 401;
+                        }
+                        return Task.CompletedTask;
+                    },
+                    OnRedirectToAccessDenied = context =>
+                    {
+                        if (context.Request.Path.StartsWithSegments("/api") && context.Response.StatusCode == 200)
+                        {
+                            context.Response.StatusCode = 403;
+                        }
+                        return Task.CompletedTask;
+                    }
+                };
+            });
+
             builder.Services.AddRazorPages();
 
             var app = builder.Build();
